@@ -6,7 +6,7 @@ namespace UserTaskJWT.Web.Api.Tasks
     {
         public Guid Id { get; set; }
 
-        public required string Title { get; set; }; 
+        public required string Title { get; set; } 
 
         public string? Description { get; set; }
 
