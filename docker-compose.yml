@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  usertaskjwt.web.api:
+    image: ${DOCKER_REGISTRY-}usertaskjwtwebapi
+    container_name: usertaskjwt.web.api
+    build:
+      context: .
+      dockerfile: UserTaskJWT/Dockerfile
+    ports:
+      - "9900:9900"
+      - "9901:9901"
+
+  usertaskjwt.database:
+    image: postgres
+    container_name: usertaskjwt.database
+    environment:
+      - POSTGRES_DB=users
+      - POSTGRES_USER=postgresuser
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./containers/usertaskjwt-db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+
