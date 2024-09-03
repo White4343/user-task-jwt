@@ -11,6 +11,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.MapGet("/love", () => "Hello World!").WithOpenApi();
+
 app.UseHttpsRedirection();
 
 await app.RunAsync().ConfigureAwait(false);

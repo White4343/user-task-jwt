@@ -9,17 +9,18 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["UserTaskJWT/UserTaskJWT.csproj", "UserTaskJWT/"]
-RUN dotnet restore "./UserTaskJWT/./UserTaskJWT.csproj"
+COPY ["Directory.Build.props", "."]
+COPY ["UserTaskJWT/UserTaskJWT.Web.Api.csproj", "UserTaskJWT.Web.Api/"]
+RUN dotnet restore "./UserTaskJWT/./UserTaskJWT.Web.Api.csproj"
 COPY . .
-WORKDIR "/src/UserTaskJWT"
-RUN dotnet build "./UserTaskJWT.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/UserTaskJWT.Web.Api"
+RUN dotnet build "./UserTaskJWT.Web.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./UserTaskJWT.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./UserTaskJWT.Web.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "UserTaskJWT.dll"]
+ENTRYPOINT ["dotnet", "UserTaskJWT.Web.Api.dll"]
