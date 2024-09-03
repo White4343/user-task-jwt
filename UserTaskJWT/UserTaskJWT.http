@@ -1,0 +1,6 @@
+@UserTaskJWT_HostAddress = http://localhost:5072
+
+GET {{UserTaskJWT_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
