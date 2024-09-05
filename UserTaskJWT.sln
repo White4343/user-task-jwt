@@ -13,6 +13,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{239008E5-7E98-4D6B-9A65-EFBE2C2D28F5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{30D4DC93-5D26-4BC1-BA34-CF876B5417B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C9FCA1EB-0CBF-4C38-8546-EABA90427008}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserTaskJWT.UnitTests", "UserTaskKWT.UnitTests\UserTaskJWT.UnitTests.csproj", "{52B0D879-5883-4705-B8F7-E1CAAB0265DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +33,17 @@ Global
 		{239008E5-7E98-4D6B-9A65-EFBE2C2D28F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{239008E5-7E98-4D6B-9A65-EFBE2C2D28F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{239008E5-7E98-4D6B-9A65-EFBE2C2D28F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52B0D879-5883-4705-B8F7-E1CAAB0265DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52B0D879-5883-4705-B8F7-E1CAAB0265DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52B0D879-5883-4705-B8F7-E1CAAB0265DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52B0D879-5883-4705-B8F7-E1CAAB0265DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0050B16A-B1D5-4445-A12A-FFF0F5939D91} = {C9FCA1EB-0CBF-4C38-8546-EABA90427008}
+		{52B0D879-5883-4705-B8F7-E1CAAB0265DC} = {30D4DC93-5D26-4BC1-BA34-CF876B5417B3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6AEE1DE7-01EB-45ED-8A5D-61F3B41D643B}
