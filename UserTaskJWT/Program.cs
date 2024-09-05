@@ -1,5 +1,11 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using UserTaskJWT.Web.Api.Data;
+using UserTaskJWT.Web.Api.Endpoints;
+using UserTaskJWT.Web.Api.Middleware;
+using UserTaskJWT.Web.Api.PasswordHashing;
+using UserTaskJWT.Web.Api.Users;
+using UserTaskJWT.Web.Api.Users.RegisterUser;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +15,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DockerConnectionString")));
 
+builder.Services.AddEndpoints();
+
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserValidator>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<RegisterUserHandler>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -16,6 +29,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
+
+app.MapEndpoints();
 
 app.MapGet("/love", () => "Hello World!").WithOpenApi();
 
