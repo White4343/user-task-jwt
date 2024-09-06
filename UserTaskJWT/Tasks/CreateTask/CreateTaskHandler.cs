@@ -1,16 +1,17 @@
 ﻿using System.Security.Claims;
 using FluentValidation;
+using UserTaskJWT.Web.Api.JwtProviderService;
 
 namespace UserTaskJWT.Web.Api.Tasks.CreateTask
 {
     public class CreateTaskHandler(ITaskRepository taskRepository, IValidator<CreateTaskCommand> createTaskValidator)
     {
-        public async Task<Task> HandleAsync(CreateTaskCommand command, ClaimsPrincipal user, CancellationToken cancellationToken)
+        public async Task<BaseTaskResponse> HandleAsync(CreateTaskCommand command, ClaimsPrincipal user, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(command);
             ArgumentNullException.ThrowIfNull(user);
 
-            var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = GetUserId.GetUserIdFromClaims(user);
 
             ArgumentNullException.ThrowIfNull(userId);
 
@@ -36,7 +37,9 @@ namespace UserTaskJWT.Web.Api.Tasks.CreateTask
 
             await taskRepository.CreateAsync(task, cancellationToken).ConfigureAwait(false);
 
-            return task;
+            var createdTask = new BaseTaskResponse(task.Id, task.Title, task.Description, task.DueDate, task.Status, task.Priority, task.CreatedAt, task.UpdatedAt, task.UserId);
+
+            return createdTask;
         }
     }
 }
