@@ -25,6 +25,10 @@ namespace UserTaskJWT.Web.Api.Middleware
             {
                 await CreateContext(context, e, 400).ConfigureAwait(false);
             }
+            catch (ArgumentNullException e)
+            {
+                await CreateContext(context, e, 404).ConfigureAwait(false);
+            }
             catch (Exception e)
             {
                 await CreateContext(context, e, 500).ConfigureAwait(false);
