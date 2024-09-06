@@ -10,6 +10,7 @@ using UserTaskJWT.Web.Api.Middleware;
 using UserTaskJWT.Web.Api.PasswordHashing;
 using UserTaskJWT.Web.Api.Tasks;
 using UserTaskJWT.Web.Api.Tasks.CreateTask;
+using UserTaskJWT.Web.Api.Tasks.DeleteTask;
 using UserTaskJWT.Web.Api.Tasks.GetTaskById;
 using UserTaskJWT.Web.Api.Tasks.UpdateTask;
 using UserTaskJWT.Web.Api.Users;
@@ -66,6 +67,7 @@ builder.Services.AddScoped<LoginHandler>();
 builder.Services.AddScoped<CreateTaskHandler>();
 builder.Services.AddScoped<GetTaskByIdHandler>();
 builder.Services.AddScoped<UpdateTaskHandler>();
+builder.Services.AddScoped<DeleteTaskHandler>();
 
 var app = builder.Build();
 
