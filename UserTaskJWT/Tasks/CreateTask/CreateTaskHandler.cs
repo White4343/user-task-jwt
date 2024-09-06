@@ -1,12 +1,25 @@
-﻿namespace UserTaskJWT.Web.Api.Tasks.CreateTask
+﻿using System.Security.Claims;
+using FluentValidation;
+
+namespace UserTaskJWT.Web.Api.Tasks.CreateTask
 {
-    public class CreateTaskHandler(ITaskRepository taskRepository)
+    public class CreateTaskHandler(ITaskRepository taskRepository, IValidator<CreateTaskCommand> createTaskValidator)
     {
-        public async Task<Task> HandleAsync(CreateTaskCommand command, CancellationToken cancellationToken)
+        public async Task<Task> HandleAsync(CreateTaskCommand command, ClaimsPrincipal user, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(command);
+            ArgumentNullException.ThrowIfNull(user);
 
-            // validate if the command is valid
+            var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            ArgumentNullException.ThrowIfNull(userId);
+
+            var validationResult = await createTaskValidator.ValidateAsync(command, cancellationToken).ConfigureAwait(false);
+
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
 
             var task = new Task
             {
@@ -18,7 +31,7 @@
                 Priority = command.Priority,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
-                UserId = Guid.Empty
+                UserId = new Guid(userId)
             };
 
             await taskRepository.CreateAsync(task, cancellationToken).ConfigureAwait(false);
