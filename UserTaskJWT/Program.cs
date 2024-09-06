@@ -4,6 +4,8 @@ using UserTaskJWT.Web.Api.Data;
 using UserTaskJWT.Web.Api.Endpoints;
 using UserTaskJWT.Web.Api.Middleware;
 using UserTaskJWT.Web.Api.PasswordHashing;
+using UserTaskJWT.Web.Api.Tasks;
+using UserTaskJWT.Web.Api.Tasks.CreateTask;
 using UserTaskJWT.Web.Api.Users;
 using UserTaskJWT.Web.Api.Users.RegisterUser;
 
@@ -20,7 +22,9 @@ builder.Services.AddEndpoints();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserValidator>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddScoped<RegisterUserHandler>();
+builder.Services.AddScoped<CreateTaskHandler>();
 
 var app = builder.Build();
 
