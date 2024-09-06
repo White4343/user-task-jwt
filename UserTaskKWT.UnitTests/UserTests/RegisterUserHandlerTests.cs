@@ -8,7 +8,7 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
-namespace UserTaskJWT.UnitTests
+namespace UserTaskJWT.UnitTests.UserTests
 {
     public class RegisterUserHandlerTests
     {

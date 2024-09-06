@@ -6,7 +6,7 @@ using UserTaskJWT.Web.Api.PasswordHashing;
 using UserTaskJWT.Web.Api.Users;
 using UserTaskJWT.Web.Api.Users.Login;
 
-namespace UserTaskJWT.UnitTests
+namespace UserTaskJWT.UnitTests.UserTests
 {
     public class LoginHandlerTests
     {

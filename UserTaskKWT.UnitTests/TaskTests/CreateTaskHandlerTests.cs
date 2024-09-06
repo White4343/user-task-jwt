@@ -8,7 +8,7 @@ using UserTaskJWT.Web.Api.Tasks.CreateTask;
 using Task = System.Threading.Tasks.Task;
 using TaskStatus = UserTaskJWT.Web.Api.Tasks.TaskStatus;
 
-namespace UserTaskJWT.UnitTests
+namespace UserTaskJWT.UnitTests.TaskTests
 {
     public class CreateTaskHandlerTests
     {
@@ -34,6 +34,19 @@ namespace UserTaskJWT.UnitTests
             // Act
             var task = await _handler.HandleAsync(command, user, CancellationToken.None).ConfigureAwait(false);
 
+            var taskEntity = new Web.Api.Tasks.Task
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                DueDate = task.DueDate,
+                Status = task.Status,
+                Priority = task.Priority,
+                CreatedAt = task.CreatedAt,
+                UpdatedAt = task.UpdatedAt,
+                UserId = task.UserId
+            };
+
             // Assert
             task.Should().NotBeNull();
             task.Id.Should().NotBeEmpty();
@@ -46,7 +59,7 @@ namespace UserTaskJWT.UnitTests
             task.UpdatedAt.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
             task.UserId.Should().Be(new Guid(userId));
 
-            await _taskRepository.Received(1).CreateAsync(task, Arg.Any<CancellationToken>()).ConfigureAwait(false);
+            await _taskRepository.Received(1).CreateAsync(taskEntity, Arg.Any<CancellationToken>()).ConfigureAwait(false);
         }
 
         [Fact]
@@ -57,7 +70,7 @@ namespace UserTaskJWT.UnitTests
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(() =>
-                _handler.HandleAsync(new CreateTaskCommand("Test", "Test", 
+                _handler.HandleAsync(new CreateTaskCommand("Test", "Test",
                     DateTime.UtcNow, TaskStatus.Pending, TaskPriority.Medium), user, CancellationToken.None))
                 .ConfigureAwait(false);
         }
@@ -73,7 +86,7 @@ namespace UserTaskJWT.UnitTests
             _createTaskValidator.ValidateAsync(command, Arg.Any<CancellationToken>()).Returns(validationResult);
 
             // Act & Assert
-            await Assert.ThrowsAsync<ValidationException>(() => 
+            await Assert.ThrowsAsync<ValidationException>(() =>
                 _handler.HandleAsync(command, user, CancellationToken.None)).ConfigureAwait(false);
         }
     }

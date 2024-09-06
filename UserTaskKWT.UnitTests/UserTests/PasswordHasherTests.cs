@@ -1,7 +1,7 @@
 using FluentAssertions;
 using UserTaskJWT.Web.Api.PasswordHashing;
 
-namespace UserTaskJWT.UnitTests
+namespace UserTaskJWT.UnitTests.UserTests
 {
     public class PasswordHasherTests
     {

@@ -10,6 +10,7 @@ using UserTaskJWT.Web.Api.Middleware;
 using UserTaskJWT.Web.Api.PasswordHashing;
 using UserTaskJWT.Web.Api.Tasks;
 using UserTaskJWT.Web.Api.Tasks.CreateTask;
+using UserTaskJWT.Web.Api.Tasks.GetTaskById;
 using UserTaskJWT.Web.Api.Users;
 using UserTaskJWT.Web.Api.Users.Login;
 using UserTaskJWT.Web.Api.Users.RegisterUser;
@@ -58,6 +59,7 @@ builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddScoped<RegisterUserHandler>();
 builder.Services.AddScoped<LoginHandler>();
 builder.Services.AddScoped<CreateTaskHandler>();
+builder.Services.AddScoped<GetTaskByIdHandler>();
 
 var app = builder.Build();
 
@@ -70,8 +72,6 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.MapEndpoints();
-
-app.MapGet("/love", () => "Hello World!").WithOpenApi();
 
 app.UseHttpsRedirection();
 
