@@ -1,18 +1,48 @@
+using System.Text;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using UserTaskJWT.Web.Api.Data;
 using UserTaskJWT.Web.Api.Endpoints;
+using UserTaskJWT.Web.Api.JwtProviderService;
+using UserTaskJWT.Web.Api.JwtProviderService.OptionsSetup;
 using UserTaskJWT.Web.Api.Middleware;
 using UserTaskJWT.Web.Api.PasswordHashing;
 using UserTaskJWT.Web.Api.Tasks;
 using UserTaskJWT.Web.Api.Tasks.CreateTask;
 using UserTaskJWT.Web.Api.Users;
+using UserTaskJWT.Web.Api.Users.Login;
 using UserTaskJWT.Web.Api.Users.RegisterUser;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"] 
+                                       ?? throw new InvalidOperationException()))
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DockerConnectionString")));
@@ -21,9 +51,12 @@ builder.Services.AddEndpoints();
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserValidator>();
+builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+
 builder.Services.AddScoped<RegisterUserHandler>();
+builder.Services.AddScoped<LoginHandler>();
 builder.Services.AddScoped<CreateTaskHandler>();
 
 var app = builder.Build();
@@ -41,6 +74,10 @@ app.MapEndpoints();
 app.MapGet("/love", () => "Hello World!").WithOpenApi();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 CreateDbIfNotExists(app);
 
