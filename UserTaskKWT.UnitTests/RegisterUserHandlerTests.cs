@@ -54,7 +54,6 @@ namespace UserTaskJWT.UnitTests
 
             ArgumentNullException.ThrowIfNull(response);
 
-
             await _userRepository.Received(1).AddAsync(user, CancellationToken.None).ConfigureAwait(false);
         }
 
