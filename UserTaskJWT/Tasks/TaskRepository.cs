@@ -76,6 +76,8 @@ namespace UserTaskJWT.Web.Api.Tasks
                 context.Tasks.Update(task);
                 await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
+                logger.LogInformation("Task updated: {Task} by user {UserId}", task, task.UserId);
+
                 return task;
             }
             catch (Exception e)
@@ -96,6 +98,8 @@ namespace UserTaskJWT.Web.Api.Tasks
 
                 context.Tasks.Remove(task);
                 await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+                logger.LogInformation("Task deleted: {Task} by user {UserId}", task, task.UserId);
 
                 return task;
             }

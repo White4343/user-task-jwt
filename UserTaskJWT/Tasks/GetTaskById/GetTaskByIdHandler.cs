@@ -10,7 +10,7 @@ namespace UserTaskJWT.Web.Api.Tasks.GetTaskById
             ArgumentNullException.ThrowIfNull(id);
             ArgumentNullException.ThrowIfNull(user);
 
-            var userId = GetUserId.GetUserIdFromClaims(user);
+            var userId = GetUserInformation.GetUserIdFromClaims(user);
 
             var task = await taskRepository.GetTaskAsync(id, cancellationToken).ConfigureAwait(false);
 

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using UserTaskJWT.Web.Api.PasswordHashing;
+using UserTaskJWT.Web.Api.Validation;
 using BadHttpRequestException = Microsoft.AspNetCore.Http.BadHttpRequestException;
 
 namespace UserTaskJWT.Web.Api.Users.RegisterUser
@@ -13,10 +14,7 @@ namespace UserTaskJWT.Web.Api.Users.RegisterUser
             // validate password, email, username
             var validationResult = await registerUserValidator.ValidateAsync(command, cancellationToken).ConfigureAwait(false);
 
-            if (!validationResult.IsValid)
-            {
-                throw new ValidationException(validationResult.Errors);
-            }
+            CheckValidationResult.IsValidationResultValid(validationResult);
 
             // check if email is already taken
             if (await IsEmailTaken(command.Email, cancellationToken).ConfigureAwait(false))

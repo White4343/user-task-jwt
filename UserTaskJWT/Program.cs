@@ -11,6 +11,7 @@ using UserTaskJWT.Web.Api.PasswordHashing;
 using UserTaskJWT.Web.Api.Tasks;
 using UserTaskJWT.Web.Api.Tasks.CreateTask;
 using UserTaskJWT.Web.Api.Tasks.GetTaskById;
+using UserTaskJWT.Web.Api.Tasks.UpdateTask;
 using UserTaskJWT.Web.Api.Users;
 using UserTaskJWT.Web.Api.Users.Login;
 using UserTaskJWT.Web.Api.Users.RegisterUser;
@@ -45,13 +46,17 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DockerConnectionString")));
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DockerConnectionString"));
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+});
 
 builder.Services.AddEndpoints();
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserValidator>();
 builder.Services.AddScoped<IValidator<CreateTaskCommand>, CreateTaskValidator>();
+builder.Services.AddScoped<IValidator<UpdateTaskCommand>, UpdateTaskValidator>();
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
@@ -60,6 +65,7 @@ builder.Services.AddScoped<RegisterUserHandler>();
 builder.Services.AddScoped<LoginHandler>();
 builder.Services.AddScoped<CreateTaskHandler>();
 builder.Services.AddScoped<GetTaskByIdHandler>();
+builder.Services.AddScoped<UpdateTaskHandler>();
 
 var app = builder.Build();
 
