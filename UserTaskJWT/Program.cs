@@ -6,7 +6,6 @@ using Microsoft.IdentityModel.Tokens;
 using UserTaskJWT.Web.Api.Data;
 using UserTaskJWT.Web.Api.Endpoints;
 using UserTaskJWT.Web.Api.JwtProviderService;
-using UserTaskJWT.Web.Api.JwtProviderService.OptionsSetup;
 using UserTaskJWT.Web.Api.Middleware;
 using UserTaskJWT.Web.Api.PasswordHashing;
 using UserTaskJWT.Web.Api.Tasks;
@@ -51,6 +50,7 @@ builder.Services.AddEndpoints();
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserValidator>();
+builder.Services.AddScoped<IValidator<CreateTaskCommand>, CreateTaskValidator>();
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
