@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using FluentValidation;
 using UserTaskJWT.Web.Api.JwtProviderService;
+using UserTaskJWT.Web.Api.Validation;
 
 namespace UserTaskJWT.Web.Api.Tasks.CreateTask
 {
@@ -11,16 +12,13 @@ namespace UserTaskJWT.Web.Api.Tasks.CreateTask
             ArgumentNullException.ThrowIfNull(command);
             ArgumentNullException.ThrowIfNull(user);
 
-            var userId = GetUserId.GetUserIdFromClaims(user);
+            var userId = GetUserInformation.GetUserIdFromClaims(user);
 
             ArgumentNullException.ThrowIfNull(userId);
 
             var validationResult = await createTaskValidator.ValidateAsync(command, cancellationToken).ConfigureAwait(false);
 
-            if (!validationResult.IsValid)
-            {
-                throw new ValidationException(validationResult.Errors);
-            }
+            CheckValidationResult.IsValidationResultValid(validationResult);
 
             var task = new Task
             {
