@@ -12,6 +12,7 @@ using UserTaskJWT.Web.Api.Tasks;
 using UserTaskJWT.Web.Api.Tasks.CreateTask;
 using UserTaskJWT.Web.Api.Tasks.DeleteTask;
 using UserTaskJWT.Web.Api.Tasks.GetTaskById;
+using UserTaskJWT.Web.Api.Tasks.GetTasksByUserId;
 using UserTaskJWT.Web.Api.Tasks.UpdateTask;
 using UserTaskJWT.Web.Api.Users;
 using UserTaskJWT.Web.Api.Users.Login;
@@ -58,6 +59,7 @@ builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserValidator>();
 builder.Services.AddScoped<IValidator<CreateTaskCommand>, CreateTaskValidator>();
 builder.Services.AddScoped<IValidator<UpdateTaskCommand>, UpdateTaskValidator>();
+builder.Services.AddScoped<IValidator<GetTasksByUserIdQuery>, GetTasksByUserIdValidator>();
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
@@ -68,6 +70,7 @@ builder.Services.AddScoped<CreateTaskHandler>();
 builder.Services.AddScoped<GetTaskByIdHandler>();
 builder.Services.AddScoped<UpdateTaskHandler>();
 builder.Services.AddScoped<DeleteTaskHandler>();
+builder.Services.AddScoped<GetTasksByUserIdHandler>();
 
 var app = builder.Build();
 
