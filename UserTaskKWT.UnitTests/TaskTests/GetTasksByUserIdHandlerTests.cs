@@ -57,7 +57,7 @@ namespace UserTaskJWT.UnitTests.TaskTests
                 .ConfigureAwait(false);
 
             // Assert
-            response.Should().BeNull();
+            response.Should().NotBeNull();
         }
 
         [Fact]
