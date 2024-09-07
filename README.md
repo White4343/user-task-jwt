@@ -40,7 +40,7 @@ Swagger UI: Once the server is running, access the Swagger UI at https://localho
 Minimal API with Clean Architecture
 Minimal API: We've chosen Minimal APIs in .NET 8 for their simplicity and focus on essential features. This reduces boilerplate code and improves development speed.
 
-# Repository Pattern
+Repository Pattern
 Repository Pattern: The Repository Pattern is used to abstract data access logic, making it easier to switch between different data storage implementations (e.g., in-memory, SQL Server, NoSQL databases) without affecting the core application logic.
 # Future Improvements
 Due to time constraints, some classes could be further refined:
