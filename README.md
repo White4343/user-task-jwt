@@ -37,6 +37,11 @@ The API will be accessible at https://localhost:9901 (or the port specified in t
 ## API Documentation
 Swagger UI: Once the server is running, access the Swagger UI at https://localhost:9901/swagger to explore and interact with the API endpoints.
 ## Architecture and Design Choices
+
+### ER DB Diagram
+![UserTaskJwtER drawio](https://github.com/user-attachments/assets/430d3a6c-52de-48a5-8d26-ae39fec40584)
+
+
 ### Minimal API with Clean Architecture
 **Minimal API**: We've chosen Minimal APIs in .NET 8 for their simplicity and focus on essential features. This reduces boilerplate code and improves development speed.
 
